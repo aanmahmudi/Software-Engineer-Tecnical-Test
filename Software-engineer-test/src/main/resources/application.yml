@@ -1,0 +1,38 @@
+logging:
+  level:
+    '[com.example.Software.engineer.test]': TRACE
+    
+spring:
+  mvc: 
+    log-request-details: true
+    
+  datasource:
+    url: jdbc:postgresql://localhost:5432/DB-Siswa
+    driver-class-name: org.postgresql.Driver
+    username: subrutin
+    password: subrutin
+    hikari:
+      connection-timeout: 300000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 10
+      
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    properties:
+     hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 100
+        order_inserts: true
+    hibernate:
+      ddl-auto: update
+
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+server:
+  port: 9090

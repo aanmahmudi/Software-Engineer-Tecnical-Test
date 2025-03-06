@@ -1,0 +1,58 @@
+package com.example.Software.engineer.test.Controller;
+
+import com.example.Software.engineer.test.DTO.SiswaDTO;
+import com.example.Software.engineer.test.Service.SiswaService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/siswa")
+public class SiswaController {
+
+    private final SiswaService siswaService;
+    private static final Logger logger = LoggerFactory.getLogger(SiswaController.class);
+
+    @GetMapping
+    public ResponseEntity<List<SiswaDTO>> getAllSiswa() {
+        logger.info("Mengambil semua data siswa");
+        return ResponseEntity.ok(siswaService.getAllSiswa());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SiswaDTO> getSiswaById(@PathVariable("id") Long id) {
+        logger.info("Mengambil data siswa dengan ID: {}", id);
+        return ResponseEntity.ok(siswaService.getSiswaById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<SiswaDTO> createSiswa(@Valid @RequestBody SiswaDTO siswaDTO) {
+        logger.info("Menambahkan siswa baru: {}", siswaDTO.getNama());
+        return ResponseEntity.ok(siswaService.saveSiswa(siswaDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SiswaDTO> updateSiswa(@PathVariable Long id, @Valid @RequestBody SiswaDTO siswaDTO) {
+        logger.info("Mengupdate data siswa dengan ID: {}", id);
+        return ResponseEntity.ok(siswaService.updateSiswa(id, siswaDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSiswa(@PathVariable Long id) {
+        logger.warn("Menghapus data siswa dengan ID: {}", id);
+        siswaService.deleteSiswa(id);
+        return ResponseEntity.ok("Siswa dengan ID " + id + " berhasil dihapus");
+    }
+
+    @PostMapping("/{siswaId}/mapel/{mapelId}")
+    public ResponseEntity<SiswaDTO> addMapelToSiswa(@PathVariable Long siswaId, @PathVariable Long mapelId) {
+        logger.info("Menambahkan mata pelajaran ID {} ke siswa ID {}", mapelId, siswaId);
+        return ResponseEntity.ok(siswaService.addMapelToSiswa(siswaId, mapelId));
+    }
+}

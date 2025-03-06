@@ -1,0 +1,80 @@
+package com.example.Software.engineer.test.Controller;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.Software.engineer.test.DTO.SiswaDTO;
+import com.example.Software.engineer.test.Entity.Siswa;
+import com.example.Software.engineer.test.Service.SiswaService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/siswa")
+public class SiswaController {
+	
+	private final SiswaService siswaService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(SiswaController.class);
+	
+	@GetMapping
+	public ResponseEntity<List<Siswa>> getAllSiswa(){
+		logger.info("Mengambil semua data siswa");
+		List<Siswa>siswaList = siswaService.getAllSiswa();
+		return ResponseEntity.ok(siswaList);
+		
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<SiswaDTO> getSiswaById(@PathVariable Long id){
+		logger.info("Mengambil data siswa dengan ID: {}", id);
+		Siswa siswa = siswaService.getSiswaById(id);
+		return ResponseEntity.ok(siswaService.convertToDTO(siswa));
+		
+	}
+	
+	@PostMapping
+	public ResponseEntity<Siswa>createSiswa(@RequestBody Siswa siswa){
+		logger.info("Menambahkan siswa baru: {}", siswa.getNama());
+		Siswa savedSiswa = siswaService.saveSiswa(siswa);
+		return ResponseEntity.ok(savedSiswa);
+		
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Siswa> updateSiswa(@PathVariable Long id, @RequestBody Siswa siswa){
+		logger.info("Mengupdate data siswa dengan ID: {}", id,id);
+		Siswa updateSiswa = siswaService.updateSiswa(id, siswa);
+		return ResponseEntity.ok(updateSiswa);
+		
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteSiswa(@PathVariable Long id){
+		logger.warn("Menghapus data siswa dengan ID: {}", id, id);
+		siswaService.deleteSiswa(id);
+		return ResponseEntity.ok("Siswa dengan ID" + id + "Berhasil dihapus");
+		
+	}
+	
+	@PostMapping("/{siswaId}/mapel/{mapelId}")
+	public ResponseEntity<Siswa> addMapelToSiswa(@PathVariable Long siswaId, @PathVariable Long mapelId){
+		logger.info("Menambahkan mata pelajaran dengan Id ke siswa Id: {} ", siswaId, mapelId, mapelId, siswaId);
+		Siswa siswa = siswaService.addMapelToSiswa(siswaId, mapelId);
+		return ResponseEntity.ok(siswa);
+		
+	}
+
+}

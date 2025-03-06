@@ -1,0 +1,42 @@
+package com.example.Software.engineer.test.Service;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.example.Software.engineer.test.Entity.Siswa;
+import com.example.Software.engineer.test.Repository.MapelRepository;
+import com.example.Software.engineer.test.Repository.SiswaRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
+
+@Service
+@RequiredArgsConstructor
+public class SiswaService {
+	private final SiswaRepository siswaRepository;
+	private final MapelRepository mapelRepository;
+	
+	private static final Logger logger = LoggerFactory.getLogger(SiswaService.class);
+	
+	public List<Siswa> getAllSiswa(){
+		logger.info("Mengambil semua data siswa");
+		return siswaRepository.findAll();
+	}
+	
+	public Siswa getSiswaById(Long id) {
+		logger.info("Mencari siswa dengan ID: {}", id);
+		return siswaRepository.findById(id)
+				.orElseThrow(()-> new RuntimeException("Siswa dengan ID " + id + "tidak ditemukan"));
+	}
+	
+	@Transactional
+	public Siswa saveSiswa(Siswa siswa) {
+		logger.info("Menyimpan siswa baru: {}", siswa.getNama());
+		return siswaRepository.save(siswa);
+	}
+
+}

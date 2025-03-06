@@ -1,0 +1,5 @@
+package com.example.Software.engineer.test.Repository;
+
+public interface MapelRepository {
+
+}
