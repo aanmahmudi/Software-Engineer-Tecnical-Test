@@ -19,6 +19,10 @@ import lombok.RequiredArgsConstructor;
 public class ProvinsiService {
 	private final ProvinsiRepository provinsiRepository;
 	private final CountryRepository countryRepository;
+	
+	public List<ProvinsiDTO> getAllProvinsi() {
+		return provinsiRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+	}
 
 	public List<ProvinsiDTO> getProvinsiByCountry(Long countryId) {
 		return provinsiRepository.findByCountryId(countryId).stream()
@@ -42,8 +46,8 @@ public class ProvinsiService {
 	    return new ProvinsiDTO(
 	        provinsi.getId(),
 	        provinsi.getName(),
-	        provinsi.getCountry().getId(),  // Hanya mengambil ID dari Country, bukan seluruh objek
-	        provinsi.getCountry().getName() // Opsional, jika ingin menampilkan nama negara juga
+	        provinsi.getCountry().getId(), 
+	        provinsi.getCountry().getName() 
 	    );
 	}
 

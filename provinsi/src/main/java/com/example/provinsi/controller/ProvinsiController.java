@@ -21,6 +21,11 @@ import lombok.RequiredArgsConstructor;
 public class ProvinsiController {
 	private final ProvinsiService provinsiService;
 
+	@GetMapping
+	public ResponseEntity<List<ProvinsiDTO>> getAllProvinsi() {
+		return ResponseEntity.ok(provinsiService.getAllProvinsi());
+	}
+
 	@GetMapping("/{countryId}")
 	public ResponseEntity<List<ProvinsiDTO>> getProvinsiByCountry(@PathVariable Long countryId) {
 		return ResponseEntity.ok(provinsiService.getProvinsiByCountry(countryId));

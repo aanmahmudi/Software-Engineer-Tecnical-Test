@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.Software.engineer.test.DTO.SiswaDTO;
 import com.example.provinsi.dto.CityDTO;
 import com.example.provinsi.entity.City;
 import com.example.provinsi.entity.Provinsi;
