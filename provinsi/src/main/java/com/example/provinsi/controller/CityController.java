@@ -21,8 +21,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CityController {
 	private final CityService cityService;
+	
+	@GetMapping
+	public ResponseEntity<List<CityDTO>> getAllCity(){
+		return ResponseEntity.ok(cityService.getAllCity());
+	}
+	
 
-	@GetMapping("/{provinceId}")
+	@GetMapping("/{provinsiId}")
 	public ResponseEntity<List<CityDTO>> getCitiesByProvince(@PathVariable Long provinsiId) {
 		return ResponseEntity.ok(cityService.getCitiesByProvinsi(provinsiId));
 	}
